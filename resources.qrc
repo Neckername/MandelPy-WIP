@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/assets">
+        <!-- alias ensures the virtual name is just logo.png -->
+        <file alias="logo.png">assets/logo.png</file>
+    </qresource>
+</RCC>
