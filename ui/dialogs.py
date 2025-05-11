@@ -22,15 +22,23 @@ class PrefsDialog(QtWidgets.QDialog):
         self.setWindowTitle("Preferences")
         form = QtWidgets.QFormLayout(self)
 
-        # max iterations
-        self.spin_iter = QtWidgets.QSpinBox()
-        self.spin_iter.setRange(10, 10000)
-        self.spin_iter.setValue(PREFS["max_iter"])
-
         # escape radius
         self.dspin_esc = QtWidgets.QDoubleSpinBox()
         self.dspin_esc.setRange(2.0, 16.0)
         self.dspin_esc.setValue(PREFS["escape_radius"])
+
+        # render quality
+        self.combo_quality = QtWidgets.QComboBox()
+        self.combo_quality.addItems(["Low", "Medium", "High", "Ultra", "Custom"])
+        self.combo_quality.setCurrentText(PREFS.get("quality", "Medium"))
+
+        # custom-quality controls (always visible, maybe disabled)
+        self.spin_min_iter = QtWidgets.QSpinBox()
+        self.spin_min_iter.setRange(10, 20000)
+
+        self.dspin_mult = QtWidgets.QDoubleSpinBox()
+        self.dspin_mult.setRange(1.0, 500.0)
+        self.dspin_mult.setDecimals(1)
 
         # default save directory
         self.path_edit = QtWidgets.QLineEdit(PREFS["default_save"])
@@ -40,8 +48,10 @@ class PrefsDialog(QtWidgets.QDialog):
         hl.addWidget(self.path_edit)
         hl.addWidget(btn_browse)
 
-        form.addRow("Max iterations:",     self.spin_iter)
         form.addRow("Escape radius:",      self.dspin_esc)
+        form.addRow("Render quality:",     self.combo_quality)
+        form.addRow("Min iterations:",     self.spin_min_iter)
+        form.addRow("Multiplier:",         self.dspin_mult)
         form.addRow("Default save dir:",   hl)
 
         bb = QtWidgets.QDialogButtonBox(
@@ -52,6 +62,27 @@ class PrefsDialog(QtWidgets.QDialog):
         bb.rejected.connect(self.reject)
         form.addRow(bb)
 
+        # ─── enable / update helper ──────────────────────────────────
+        self._qmap = {"Low":0.5, "Medium":1.0, "High":2.0, "Ultra":4.0}
+
+        def _apply_values(quality:str):
+            custom = (quality == "Custom")
+            self.spin_min_iter.setEnabled(custom)
+            self.dspin_mult.setEnabled(custom)
+
+            if custom:
+                # show stored custom numbers
+                self.spin_min_iter.setValue(PREFS.get("custom_min_iter", 64))
+                self.dspin_mult.setValue(PREFS.get("custom_multiplier", 50.0))
+            else:
+                # display implicit preset numbers (read-only)
+                qfactor = self._qmap.get(quality, 1.0)
+                self.spin_min_iter.setValue(64)
+                self.dspin_mult.setValue(50.0 * qfactor)
+
+        _apply_values(self.combo_quality.currentText())
+        self.combo_quality.currentTextChanged.connect(_apply_values)
+
     def browse_path(self):
         d = QtWidgets.QFileDialog.getExistingDirectory(
             self, "Choose directory", PREFS["default_save"]
@@ -60,8 +91,11 @@ class PrefsDialog(QtWidgets.QDialog):
             self.path_edit.setText(d)
 
     def accept(self):
-        PREFS["max_iter"]      = self.spin_iter.value()
         PREFS["escape_radius"] = self.dspin_esc.value()
+        PREFS["quality"]       = self.combo_quality.currentText()
+        if PREFS["quality"] == "Custom":
+            PREFS["custom_min_iter"]   = self.spin_min_iter.value()
+            PREFS["custom_multiplier"] = self.dspin_mult.value()
         PREFS["default_save"]  = self.path_edit.text().strip()
         save_prefs(PREFS)
         super().accept()

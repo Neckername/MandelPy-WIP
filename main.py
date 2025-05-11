@@ -3,8 +3,12 @@
 import sys
 from PySide6 import QtWidgets, QtGui
 
-# register the .qrc → .py resources so ":/assets/…" icons work
-import resources_rc
+# optional resource module ────────────────────────────────────────────────
+try:
+    import resources_rc           # generated from resources.qrc
+except ModuleNotFoundError:
+    # No embedded resources – continue without them
+    pass
 
 from core.prefs import APP_NAME
 from ui.mainwindow import MainWindow

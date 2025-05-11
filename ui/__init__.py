@@ -9,3 +9,4 @@ __all__ = [
 from .canvas     import MandelbrotCanvas
 from .mainwindow import MainWindow
 from .dialogs    import PrefsDialog, GradientDialog, GradientPresetsDialog
+from .focalmap   import FocalMap
