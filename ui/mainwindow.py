@@ -13,7 +13,7 @@ from ui.canvas    import MandelbrotCanvas
 from ui.dialogs   import PrefsDialog, GradientDialog
 from ui.focalmap  import FocalMap
 
-SOFTWARE_VERSION = "1.2.0"        # shown in Help ▸ About
+SOFTWARE_VERSION = "1.2.1"        # shown in Help ▸ About
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
