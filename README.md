@@ -4,7 +4,7 @@
 
 <h2>Project Screenshots:</h2>
 
-<img src="https://github.com/Neckername/MandelPy-WIP/blob/main/assets/screenshots/MandelPyCollage1.png?raw=true" alt="project-screenshot" width="1280" height="966/">
+<img src="https://github.com/Neckername/MandelPy-WIP/blob/main/assets/screenshots/MandelPyCollage1.png?raw=true" alt="project-screenshot" width="1000" height="754/">
 
   
   
