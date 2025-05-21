@@ -166,7 +166,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self,
             f"About {APP_NAME}",
             (f"<b>{APP_NAME}</b> — version {SOFTWARE_VERSION}<br>"
-             "© 2025&nbsp;Layne&nbsp;Bradigan d/b/a GlobileShop&nbsp;LLC")
+             "© 2025 Neckername")
         )
 
     # Focal-map helper
