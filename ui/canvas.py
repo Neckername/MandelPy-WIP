@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets, QtGui, QtCore
 import numpy as np
-from core.render   import cuda_render
+from core.render   import cuda_render, get_renderer_state
 from core.gradient import gradient_to_lut
 from core.prefs    import PREFS
 import math
@@ -66,8 +66,13 @@ class MandelbrotCanvas(QtWidgets.QLabel):
                             QtGui.QImage.Format.Format_RGB888).copy()
         self.setPixmap(QtGui.QPixmap.fromImage(qimg))
         self.current_qimage = qimg
-
-        self.requestStatus.emit(f"Rendered {W}×{H}")
+        backend, reason = get_renderer_state()
+        if backend == "CUDA":
+            self.requestStatus.emit(f"Rendered {W}x{H} (CUDA)")
+        elif reason:
+            self.requestStatus.emit(f"Rendered {W}x{H} (CPU: {reason})")
+        else:
+            self.requestStatus.emit(f"Rendered {W}x{H} (CPU)")
 
         # ─── update zoom indicator ───────────────────────────
         self.zoomChanged.emit(self.compute_zoom())
