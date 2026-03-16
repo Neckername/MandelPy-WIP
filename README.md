@@ -40,10 +40,17 @@ source venv/bin/activate
 source venv\Scripts\activate
 ```
 
-<p>4. Install dependencies</p>
+<p>4. Install runtime dependencies</p>
 
 ```
 pip install -r requirements.txt
+```
+
+<p>Optional: install dev/build tooling</p>
+
+```
+pip install -r requirements-dev.txt
+pip install -r requirements-build.txt
 ```
 
 <p>5. Run MandelPy</p>
