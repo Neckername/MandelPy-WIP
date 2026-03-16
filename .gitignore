@@ -1,0 +1,6 @@
+MandelPy Installer.iss
+MandelPy.spec
+.build_deps/
+.tmp/
+build/
+dist/
