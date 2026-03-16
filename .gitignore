@@ -4,3 +4,4 @@ MandelPy.spec
 .tmp/
 build/
 dist/
+__pycache__
