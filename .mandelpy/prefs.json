@@ -1,0 +1,28 @@
+{
+    "max_iter": 512,
+    "escape_radius": 4.0,
+    "quality": "High",
+    "default_save": "C:\\Users\\necke\\Pictures",
+    "gradient": [
+        [
+            0.0,
+            "#000764"
+        ],
+        [
+            0.16,
+            "#2068CB"
+        ],
+        [
+            0.42,
+            "#EDFFFF"
+        ],
+        [
+            0.6425,
+            "#FFAA00"
+        ],
+        [
+            0.8575,
+            "#000200"
+        ]
+    ]
+}
